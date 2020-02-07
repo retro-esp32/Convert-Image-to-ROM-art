@@ -39,10 +39,10 @@ const resizer = () => {
 }
 
 const folders = () => {
- fs.readdir(png, (err, systems) => {
+ fs.readdir(jpg, (err, systems) => {
     systems.forEach( (system) => {
       if(system != '.DS_Store') {
-        images(`${png}/${system}`, system);
+        images(`${jpg}/${system}`, system);
       }
     });
  })
@@ -60,9 +60,42 @@ const images = (folder, system) => {
 }
 
 const convert = (file, name, system) => {
+  const data = fs.readFileSync(file);
+  const image = JPG.decode(data, true);
+  const width = image.width;
+  const height = image.height;
+  let art = new Uint8ClampedArray((width * height * 2) + 4);
+  art[0] = width & 0xff;
+  art[1] = width >> 8;
+  art[2] = height & 0xff;
+  art[3] = height >> 8;
+  const src = image.data;
+  for(let y = 0; y < height; y++) {
+    for(let x = 0; x < width; x++) {
+      let ptr = y * width + x;
+      let ptrDest = ptr * 4;
+      let ptrSrc = (ptr * 2) + 4;
+      let word16 = null;
+      const dither = false;
+      if(dither) {
+        word16 = dither_888xy565(x, y, src[ptrDest], src[ptrDest+ 1], src[ptrDest + 2]);
+      }
+      else {
+        word16 = convertToRGB565(src[ptrDest], src[ptrDest+ 1], src[ptrDest + 2]);
+      }
+      art[ptrSrc] = word16 & 0xff;
+      art[ptrSrc + 1] = word16 >> 8;
+    }
+  }
+  name = (name.slice(0,-4));
+  file = `../romart/${system}/${name}.art`;
+  fs.writeFile(file, art, (err) => {
+    if(err) throw err;
+  })
+  /*
   fs.readFile( file, (err, data) => {
-    const image = new JPG(data);
-    JPG.decode(file, (pixels) => {
+    const image = new PNG(data);
+    PNG.decode(file, (pixels) => {
       const width = image.width;
       const height = image.height;
       let art = new Uint8ClampedArray((width * height * 2) + 4);
@@ -95,6 +128,7 @@ const convert = (file, name, system) => {
       })
     })
   })
+  */
 }
 
 function convertToRGB565(r, g, b) {
@@ -109,7 +143,7 @@ function dither_888xy565(x, y, r, g, b) {
   return convertToRGB565(r2, g2, b2);
 }
 
-fs.access(png, error => {
+fs.access(jpg, error => {
   if(!error) {
     folders();
   } else {
