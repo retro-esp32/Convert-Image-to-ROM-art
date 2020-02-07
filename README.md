@@ -45,7 +45,7 @@ Run it again
 $ npm run dev
 ```
 
-## Copmletion
+## Completion
 
 Running the above script will produce two (2) folders
 
@@ -53,6 +53,12 @@ Running the above script will produce two (2) folders
 * romart
 
 The ```romart``` fodler contains *.art files in the emulator folder it belongs to!
+
+## Testing
+
+Head on over to the great tool [SarahC](https://codepen.io/SarahC/) built on [Code Pen](https://codepen.io/SarahC/pen/dgMLjR)
+
+Upload one of your *.art files from the romart folder
 
 ## Authors
 
@@ -65,6 +71,7 @@ This project is licensed under the Creative Commons Attribution Share Alike 4.0 
 ### Acknowledgments
 
 * [SarahC](https://codepen.io/SarahC/)
+
 
 ### Support
 > We Like Coffee!
