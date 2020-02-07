@@ -38,8 +38,8 @@ $ Would you like to run the conversion script now? (Y/n)
 You may need to enable permissions on 2 files
 ```
 $ cd ../
-$ chmod 777 png.sh
-$ chmod 777 app/png.sh
+$ chmod 777 convert.sh
+$ chmod 777 app/convert.sh
 ```
 
 Run it again
@@ -51,7 +51,7 @@ $ npm run dev
 
 Running the above script will produce two (2) folders
 
-* png
+* jpg
 * romart
 
 The ```romart``` fodler contains *.art files in the emulator folder it belongs to!
