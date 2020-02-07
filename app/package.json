@@ -1,0 +1,20 @@
+{
+  "name": "resizer",
+  "version": "1.0.0",
+  "description": "node app to create images into crc files",
+  "main": "index.js",
+  "scripts": {
+    "start": "node index.js",
+    "dev": "nodemon --exec npm start"
+  },
+  "author": "32teeth",
+  "license": "ISC",
+  "dependencies": {
+    "filereader": "^0.10.3",
+    "node-blob": "0.0.2",
+    "nodemon": "^1.19.4",
+    "png-js": "^1.0.0",
+    "prompt": "^1.0.0",
+    "shelljs": "^0.8.3"
+  }
+}
