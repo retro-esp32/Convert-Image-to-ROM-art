@@ -1,6 +1,8 @@
 # Convert PNG to ROM art
 > Create ```.art``` crc32 format ROM art
 
+![Preview](preview.gif)
+
 ## Prerequisites
 
 ```shell

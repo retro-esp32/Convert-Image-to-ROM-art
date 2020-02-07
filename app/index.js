@@ -5,6 +5,7 @@ const fs = require('fs');
 const shell = require('shelljs');
 const prompt = require('prompt');
 const PNG = require('png-js');
+const JPG = require('jpeg-js');
 const FileReader = require('filereader'), fileReader = new FileReader();
 const Blob = require('node-blob');
 
@@ -12,6 +13,7 @@ const Blob = require('node-blob');
  * consts
  */
 const png = '../png';
+const jpg = '../jpg';
 const confirm = {
   name: 'yesno',
   message: 'Would you like to run the conversion script now? (Y/n)',
@@ -30,7 +32,7 @@ const resizer = () => {
     const response = result.yesno.toLowerCase();
     if(response.length > 1) {response.slice(1);}
     if(response === 'y') {
-      shell.exec('./png.sh');
+      shell.exec('./convert.sh');
       folders();
     }
   })
@@ -59,8 +61,8 @@ const images = (folder, system) => {
 
 const convert = (file, name, system) => {
   fs.readFile( file, (err, data) => {
-    const image = new PNG(data);
-    PNG.decode(file, (pixels) => {
+    const image = new JPG(data);
+    JPG.decode(file, (pixels) => {
       const width = image.width;
       const height = image.height;
       let art = new Uint8ClampedArray((width * height * 2) + 4);
