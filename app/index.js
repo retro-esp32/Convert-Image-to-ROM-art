@@ -14,7 +14,7 @@ const Blob = require('node-blob');
 const png = '../png';
 const confirm = {
   name: 'yesno',
-  message: 'Would you like to run the `resizer` script now? (Y/n)',
+  message: 'Would you like to run the conversion script now? (Y/n)',
   validator: /y[es]*|n[o]?/,
   warning: 'Must respond yes or no',
   default: 'n'
@@ -54,6 +54,7 @@ const images = (folder, system) => {
       }
     });
   });
+  shell.exec('clear');
 }
 
 const convert = (file, name, system) => {

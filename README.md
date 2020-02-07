@@ -22,7 +22,37 @@ npm i
 
 # run it
 $ npm run dev
+
+# Prompt (If you have not run this script, answer yes)
+$ Would you like to run the conversion script now? (Y/n)
+
+# Go have a coffee
+# LET THE SCRIPT FINISH
 ```
+
+## CHMOD
+> If the above produces nothing
+
+You may need to enable permissions on 2 files
+```
+$ cd ../
+$ chmod 777 png.sh
+$ chmod 777 app/png.sh
+```
+
+Run it again
+```
+$ npm run dev
+```
+
+## Copmletion
+
+Running the above script will produce two (2) folders
+
+* png
+* romart
+
+The ```romart``` fodler contains *.art files in the emulator folder it belongs to!
 
 ## Authors
 

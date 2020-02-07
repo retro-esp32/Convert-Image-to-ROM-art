@@ -1,5 +1,9 @@
+# dependencies
+/node_modules
+
+# misc
 .DS_Store
 
-# Build folder
+# folder
 **/png/*
 **/romart/*
