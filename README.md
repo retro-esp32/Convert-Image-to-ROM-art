@@ -13,7 +13,7 @@ $ brew install node
 
 ## Installation
 
-```
+```shell
 # Navigate to app folder
 $ cd app
 
