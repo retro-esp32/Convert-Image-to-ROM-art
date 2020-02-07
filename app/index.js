@@ -40,7 +40,6 @@ const folders = () => {
  fs.readdir(png, (err, systems) => {
     systems.forEach( (system) => {
       if(system != '.DS_Store') {
-        console.log(`system:${system}`);
         images(`${png}/${system}`, system);
       }
     });
@@ -49,7 +48,6 @@ const folders = () => {
 
 const images = (folder, system) => {
   fs.readdir(folder, (err, images) => {
-    console.log(`folder:${folder} images:${images.length}`);
     images.map( (image) => {
       if(image != '.DS_Store') {
         convert(`${folder}/${image}`, image, system);
@@ -61,7 +59,6 @@ const images = (folder, system) => {
 const convert = (file, name, system) => {
   fs.readFile( file, (err, data) => {
     const image = new PNG(data);
-    //console.log(data);
     PNG.decode(file, (pixels) => {
       const width = image.width;
       const height = image.height;
@@ -89,8 +86,7 @@ const convert = (file, name, system) => {
         }
       }
       name = (name.slice(0,-4));
-      //console.log(dest);
-      file = `../art/${system}/${name}.art`;
+      file = `../romart/${system}/${name}.art`;
       fs.writeFile(file, art, (err) => {
         if(err) throw err;
       })

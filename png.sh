@@ -1,6 +1,6 @@
 #!/bin/bash
 
-rm -R art
+rm -R romart
 rm -R png
 
 cd assets
@@ -8,10 +8,10 @@ cd assets
 root=$PWD
 width=128
 bar="⣿"
-rm -R art
+rm -R romart
 rm -R png
 systems=($(ls -F | grep /))
-mkdir art
+mkdir romart
 mkdir png
 
 echo "--------------------------------------------------------------------------"
@@ -25,7 +25,7 @@ do
   echo "$system - has $total files";
 
   mkdir "${root}/png/${system}"
-  mkdir "${root}/art/${system}"
+  mkdir "${root}/romart/${system}"
 
   complete=0
   percent=0
@@ -56,6 +56,6 @@ do
 done
 
 cp -r png ../png
-cp -r art ../art
+cp -r romart ../romart
 rm -R png
-rm -R art
+rm -R romart
