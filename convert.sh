@@ -6,7 +6,7 @@ rm -R jpg
 cd assets
 
 root=$PWD
-width=128
+width=112
 bar="⣿"
 rm -R romart
 rm -R jpg

@@ -11,6 +11,9 @@ $ ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/maste
 
 # Node.js
 $ brew install node
+
+# Image Magick
+brew install imagemagick@7.0.8-56
 ```
 
 ## Installation
