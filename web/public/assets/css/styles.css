@@ -1,0 +1,222 @@
+/*
+  Imports
+*/
+@import url('https://fonts.googleapis.com/css?family=Roboto');
+
+/*
+  Variables
+*/
+:root {
+
+  /*
+    Fonts
+  */
+  --font-family: 'Roboto';
+
+  /*
+    Sizes
+  */
+  --gap: 10px;
+
+  --size-8: 8px;
+  --size-10: 10px;
+  --size-12: 12px;
+  --size-14: 14px;
+  --size-16: 16px;
+
+  /*
+    Colors
+  */
+  --white:#FFFFFF;
+  --green:#A7BC5B;
+  --moss:#8DA242;
+  --light:#D9E2B8;
+}
+
+/*
+  Global
+*/
+html,
+body {
+  margin:0;
+  padding:0;
+  font-family: var(--font-family);
+  font-size: var(--size-12);
+  text-rendering: optimizeLegibility;
+  font-kerning: normal;
+  text-size-adjust: 100%
+}
+
+/*
+  Layout
+*/
+#root {
+  display: grid;
+  grid-template-areas:
+    "header header"
+    "aside main"
+    "footer footer";
+  grid-template-columns: minmax(150px, 200px) auto;
+  grid-template-rows: 50px 1fr 100px;
+  min-height: 100vh;
+}
+
+/*
+  Header
+*/
+header {
+  grid-area: header;
+  display:flex;
+  align-items:center;
+  justify-content: center;
+  position: relative;
+  background:var(--moss);
+  color:var(--white);
+}
+
+/*
+  Main
+*/
+main {
+  grid-area: main;
+  /*
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  justify-content: center;
+  position:relative;
+  */
+  margin: var(--gap);
+  flex: 1;
+  display:grid;
+  grid-gap: var(--gap);
+  grid-template-columns: repeat( auto-fit, minmax(100px, 1fr) );
+  position:relative;
+}
+
+main:before {
+  content:'drop files here';
+  position:absolute;
+  display:flex;
+  width:100%;
+  height:100%;
+  align-items:center;
+  justify-content: center;
+
+}
+
+main.over {
+
+}
+
+main.over:before {
+  content:'';
+}
+
+.file-container {
+  display:flex;
+  flex-direction:column;
+  flex-direction:column;
+  align-items:center;
+  justify-content: center;
+  position:relative;
+  width:100px;
+  height:100px;
+  border:solid 1px var(--moss);
+  background:var(--light);
+  color:var(--moss);
+  font-size:var(--size-8);
+  overflow-y: hidden;
+}
+
+.file-container:before {
+  content:attr(file-name);
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  top: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+}
+
+.file-container:hover .file-name {
+  background:var(--green);
+  color:var(--white);
+  opacity: 0.85;
+}
+
+.file-name {
+  position:absolute;
+  width:100px;
+  height:100px;
+  background:var(--white);
+  color:var(--green);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  transition:all ease 250ms;
+  opacity: 0;
+}
+
+.file-preview {
+  width:100px;
+  height:100px;
+  overflow-y: hidden;
+}
+
+.file-preview:before {
+  content:'';
+  position: absolute;
+  left:0;
+  top:0;
+  right:0;
+  bottom:0;
+  background:var(--white);
+  opacity: 0.25;
+}
+
+.file-progress {
+  width:100%;
+  height: 20px;
+  position: absolute;
+  bottom:0;
+  transition:all ease 250ms;
+  opacity:0.5;
+}
+
+.file-progress.hidden {
+  bottom:-20px;
+}
+
+.file-progress:before {
+  content:'';
+  position: absolute;
+  background: var(--moss);
+  height:20px;
+  width:var(--width);
+}
+
+/*
+  Aside
+*/
+aside {
+  display:flex;
+  flex-direction:column;
+  grid-area: aside;
+  align-items:center;
+  justify-content: center;
+}
+
+/*
+  Footer
+*/
+footer {
+  grid-area: footer;
+  display:flex;
+  align-items:center;
+  justify-content: center;
+}
