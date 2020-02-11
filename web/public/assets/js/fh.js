@@ -2,6 +2,7 @@ const FileHandler = ( () => {
 
   const dropzone = document.querySelector('main') || false;
   let collection = [];
+  let decollection = [];
   const size = 0;
 
   const events = ( () => {
@@ -13,7 +14,6 @@ const FileHandler = ( () => {
       dropzone.addEventListener('drop', events.drop, false);
       dropzone.addEventListener('dragover', events.over, false);
       dropzone.addEventListener('dragleave', events.leave, false);
-      console.log('init')
     }
 
     /*
@@ -73,7 +73,6 @@ const FileHandler = ( () => {
    * manager
    */
   const manager = ( () => {
-
     const process = (entry, file) => {
       return new Promise(resolve => {
         entry = entry.getAsEntry || entry.webkitGetAsEntry();
@@ -82,16 +81,19 @@ const FileHandler = ( () => {
             let directory = entry.createReader();
             let count = 0;
             let temp = [];
+            let error = 0;
             const read = () => {
               directory.readEntries( (entries) => {
                 count += entries.length;
-                if(!entries.length) {
+                if(!entries.length && (count == (temp.length + error))) {
                   resolve(temp);
                 } else {
                   Object.keys(entries).forEach( (key) => {
                     entries[key].file(function (file){
                       if(!/^\./.test(file.name)) {
                         temp.push(file);
+                      } else {
+                        error++;
                       }
                       read();
                     });
@@ -112,23 +114,37 @@ const FileHandler = ( () => {
       const main = document.querySelector('main');
       main.innerHTML = '';
       let id = 0;
+      let HTML = ''
       collection.forEach( (file) => {
-          file.id = `file-${id}`;
-          main.innerHTML += `
-          <div id='${file.id}'class='file-container' file-name="${file.name}">
-            <div class='file-name'>${file.name}</div>
-            <div class='file-preview'>
-              <img src='assets/images/loading.gif'>
-            </div>
-            <div class='file-progress' style='--width:1%'></div>
+        file.id = `file-${id}`;
+        HTML += `
+        <div id='${file.id}'class='file-container' file-name="${file.name}">
+          <div class='file-name'>${file.name}</div>
+          <div class='file-preview'>
+            <img src='assets/images/loading.gif'>
           </div>
-        `;
+          <div class='file-progress' style='--width:1%'></div>
+        </div>`;
+        id++;
+      });
+      main.innerHTML = HTML;
+      decollection = collection;
+      setTimeout( () => {
+        load();
+      },1250);
+    };
+
+    const load = () => {
+      if(decollection.length) {
+        file = decollection[0];
         const reader = new FileReader();
         reader.onload = ( (file) => {
           const name = file.name;
           return (e) => {
             document.querySelector(`#${file.id}`).setAttribute('file-name', '');
             document.querySelector(`#${file.id} img`).setAttribute('src', `${e.target.result}`);
+            decollection.shift();
+            load();
           }
         })(file);
 
@@ -143,9 +159,8 @@ const FileHandler = ( () => {
             }
           }
         };
-        id++;
         reader.readAsDataURL(file);
-      })
+      }
     }
 
     return {

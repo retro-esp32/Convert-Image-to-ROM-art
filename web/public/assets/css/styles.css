@@ -23,6 +23,7 @@
   --size-12: 12px;
   --size-14: 14px;
   --size-16: 16px;
+  --size-18: 18px;
 
   /*
     Colors
@@ -67,11 +68,18 @@ body {
 header {
   grid-area: header;
   display:flex;
-  align-items:center;
+  align-items:flex-start;
   justify-content: center;
+  flex-direction: column;
   position: relative;
   background:var(--moss);
   color:var(--white);
+  padding-left:var(--gap);
+  line-height: 1;
+}
+
+header strong {
+  font-size:var(--size-18);
 }
 
 /*
@@ -209,6 +217,7 @@ aside {
   grid-area: aside;
   align-items:center;
   justify-content: center;
+  background:var(--light);
 }
 
 /*
@@ -219,4 +228,5 @@ footer {
   display:flex;
   align-items:center;
   justify-content: center;
+  background:var(--green);
 }
