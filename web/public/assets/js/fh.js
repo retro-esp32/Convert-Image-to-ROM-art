@@ -2,6 +2,7 @@ const FileHandler = ( () => {
 
   const dropzone = document.querySelector('main') || false;
   let collection = [];
+  const processed = [];
   let decollection = [];
   const size = 0;
 
@@ -118,10 +119,10 @@ const FileHandler = ( () => {
       collection.forEach( (file) => {
         file.id = `file-${id}`;
         HTML += `
-        <div id='${file.id}'class='file-container' file-name="${file.name}">
+        <div id='${file.id}' class='file-container' file-name="${file.name}">
           <div class='file-name'>${file.name}</div>
           <div class='file-preview'>
-            <img src='assets/images/loading.gif'>
+            <img src='assets/images/loading.gif' file-name='${file.name}'>
           </div>
           <div class='file-progress' style='--width:1%'></div>
         </div>`;
@@ -131,7 +132,7 @@ const FileHandler = ( () => {
       decollection = collection;
       setTimeout( () => {
         load();
-      },1250);
+      },1000);
     };
 
     const load = () => {
@@ -160,12 +161,106 @@ const FileHandler = ( () => {
           }
         };
         reader.readAsDataURL(file);
+      } else {
+        convert.process();
       }
     }
 
     return {
       process
       ,display
+    }
+  })();
+
+  /*
+   * convert
+   */
+  const convert = (() => {
+
+    let saves = [];
+
+    const process = () => {
+
+      const images = document.querySelectorAll('.file-preview img');
+      let count = images.length;
+      images.forEach( (item) => {
+        const image = new Image();
+        image.onload = ( () => {
+          const art = crc(image);
+          let blob = new Blob([art], {type: "octet/stream"});
+          let url = window.URL.createObjectURL(blob);
+          let name = item.getAttribute('file-name').replace(/\.[^.]*$/,'.art');
+
+          saves.push({name,url});
+
+          count--;
+          if(count === 0) {compress();}
+        });
+        image.src = item.src;
+      });
+    }
+
+    const crc = (image) => {
+      let width = image.width;
+      let height = image.height;
+
+      var c = document.createElement("canvas");
+      var ctx = c.getContext("2d");
+      ctx.imageSmoothingEnabled = true;
+      c.width = width;
+      c.height = height;
+      ctx.drawImage(image, 0, 0, width, height);
+      const src = ctx.getImageData(0, 0, c.width, c.height);
+      const data = src.data;
+
+      let art = new Uint8Array((width * height * 2) + 4);
+      art[0] = width & 0xff;
+      art[1] = width >> 8;
+      art[2] = height & 0xff;
+      art[3] = height >> 8;
+
+      for(let y = 0; y < height; y++) {
+        for(let x = 0; x < width; x++) {
+          let ptr = y * width + x;
+          let ptrDest = ptr * 4;
+          let ptrSrc = (ptr * 2) + 4;
+          let r = data[ptrDest];
+          let g = data[ptrDest + 1];
+          let b = data[ptrDest + 2];
+          let word16 = (((r >> 3) << 11) | ((g >> 2) << 5) | (b >> 3));
+          art[ptrSrc] = word16 & 0xff;
+          art[ptrSrc + 1] = word16 >> 8;
+        }
+      }
+
+      return art;
+    }
+
+    const compress = () => {
+      let zip = new JSZip();
+      let count = 0;
+      saves.forEach( (save) => {
+        const filename = save.name;
+
+        JSZipUtils.getBinaryContent(save.url, function (err, data) {
+          if (err) {
+            throw err; // or handle the error
+          }
+          zip.file(filename, data, {binary: true}) ;
+          count++;
+          if (count == saves.length) {
+            zip.generateAsync({ type: 'blob' }).then(function (content) {
+              saveAs(content, 'romart.zip');
+            });
+          }
+        });
+      })
+    }
+
+    return {
+      process
+      ,crc
+      ,compress
     }
   })();
 

@@ -54,11 +54,9 @@ body {
 #root {
   display: grid;
   grid-template-areas:
-    "header header"
-    "aside main"
-    "footer footer";
-  grid-template-columns: minmax(150px, 200px) auto;
-  grid-template-rows: 50px 1fr 100px;
+    "header"
+    "main";
+  grid-template-rows: 50px 1fr;
   min-height: 100vh;
 }
 
@@ -185,6 +183,10 @@ main.over:before {
   bottom:0;
   background:var(--white);
   opacity: 0.25;
+}
+
+.file-preview img {
+  max-width:100%;
 }
 
 .file-progress {
