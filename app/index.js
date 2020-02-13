@@ -64,7 +64,7 @@ const convert = (file, name, system) => {
   const image = JPG.decode(data, true);
   const width = image.width;
   const height = image.height;
-  let art = new Uint8ClampedArray((width * height * 2) + 4);
+  let art = new Uint8Array((width * height * 2) + 4);
   art[0] = width & 0xff;
   art[1] = width >> 8;
   art[2] = height & 0xff;
