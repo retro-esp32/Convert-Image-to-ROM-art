@@ -7,6 +7,7 @@
 > Play with the online converter
 
 [Convert PNG to ROM art](https://convert-image-to-rom-art.herokuapp.com/)
+```git subtree push --prefix www heroku master```
 
 ## Prerequisites
 
