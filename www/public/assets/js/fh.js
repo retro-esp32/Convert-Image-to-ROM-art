@@ -204,6 +204,12 @@ const FileHandler = ( () => {
       let width = image.width;
       let height = image.height;
 
+      let scale = width / 112;
+
+      width /= scale;
+      height /= scale;
+      height = parseInt(height);
+
       var c = document.createElement("canvas");
       var ctx = c.getContext("2d");
       ctx.imageSmoothingEnabled = true;
