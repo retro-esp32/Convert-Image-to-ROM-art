@@ -148,7 +148,9 @@ const FileHandler = ( () => {
     const load = () => {
       if(decollection.length) {
         processed.loaded++;
-        status.innerHTML = `loading: ${processed.loaded}/${processed.total}`
+        let percent = parseInt( ((processed.loaded / processed.total) * 100), 10 );
+        status.innerHTML = `loading: ${processed.loaded}/${processed.total}`;
+        status.setAttribute('style', `--width:${percent}%`);
         file = decollection[0];
         const reader = new FileReader();
         reader.onload = ( (file) => {
@@ -256,7 +258,10 @@ const FileHandler = ( () => {
 
     let zip = new JSZip();
     const compress = () => {
+      let percent = parseInt( (((processed.total-saves.length) / processed.total) * 100), 10 );
       status.innerHTML = `processed: ${processed.total-saves.length}/${processed.total}`;
+      status.setAttribute('style', `--width:${percent}%`);
+
       if(saves.length) {
         const save = saves[0];
         const filename = save.name;
@@ -272,11 +277,22 @@ const FileHandler = ( () => {
           },10);
         })
       } else {
-        zip.generateAsync({ type: 'blob' }).then(function (content) {
-          saveAs(content, `${folder}.zip`);
-          status.innerHTML = `downloading romart.zip`;
-        });
+        status.innerHTML = `download&nbsp;<strong>${folder}.zip</strong>`;
+        status.addEventListener('click', download, false);
       }
+    }
+
+    const download = () => {
+      zip.generateAsync({ type: 'blob' }).then(function (content) {
+        saveAs(content, `${folder}.zip`);
+        status.innerHTML = `thank you for downloading`;
+        status.removeEventListener('click', download, false);
+        setTimeout( () => {
+          status.setAttribute('style', `--width:${0}%`);
+          status.innerHTML = ``;
+        }, 2500)
+
+      });
     }
 
     return {
