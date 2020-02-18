@@ -1,8 +1,15 @@
 const FileHandler = ( () => {
 
   const dropzone = document.querySelector('main') || false;
+  const status = document.querySelector('.status') || false;
+
   let collection = [];
-  const processed = [];
+  let folder = 'romart';
+  const processed = {
+    loaded:0
+    ,converted:0
+    ,total:0
+  };
   let decollection = [];
   const size = 0;
 
@@ -44,6 +51,7 @@ const FileHandler = ( () => {
       if(e.dataTransfer.types[0] === 'Files') {
         const entries = e.dataTransfer.items;
         const files = e.dataTransfer.files;
+
         Object.keys(entries).forEach( (key) => {
           const entry = entries[key];
           const file = files[key];
@@ -79,6 +87,7 @@ const FileHandler = ( () => {
         entry = entry.getAsEntry || entry.webkitGetAsEntry();
         switch(true) {
           case entry.isDirectory:
+            folder = entry.name;
             let directory = entry.createReader();
             let count = 0;
             let temp = [];
@@ -115,7 +124,8 @@ const FileHandler = ( () => {
       const main = document.querySelector('main');
       main.innerHTML = '';
       let id = 0;
-      let HTML = ''
+      let HTML = '';
+      processed.total = collection.length;
       collection.forEach( (file) => {
         file.id = `file-${id}`;
         HTML += `
@@ -137,6 +147,8 @@ const FileHandler = ( () => {
 
     const load = () => {
       if(decollection.length) {
+        processed.loaded++;
+        status.innerHTML = `loading: ${processed.loaded}/${processed.total}`
         file = decollection[0];
         const reader = new FileReader();
         reader.onload = ( (file) => {
@@ -180,9 +192,9 @@ const FileHandler = ( () => {
     let saves = [];
 
     const process = () => {
-
       const images = document.querySelectorAll('.file-preview img');
       let count = images.length;
+      status.innerHTML = 'please wait';
       images.forEach( (item) => {
         const image = new Image();
         image.onload = ( () => {
@@ -242,10 +254,11 @@ const FileHandler = ( () => {
       return art;
     }
 
+    let zip = new JSZip();
     const compress = () => {
-      let zip = new JSZip();
-      let count = 0;
-      saves.forEach( (save) => {
+      status.innerHTML = `processed: ${processed.total-saves.length}/${processed.total}`;
+      if(saves.length) {
+        const save = saves[0];
         const filename = save.name;
 
         JSZipUtils.getBinaryContent(save.url, function (err, data) {
@@ -253,14 +266,17 @@ const FileHandler = ( () => {
             throw err; // or handle the error
           }
           zip.file(filename, data, {binary: true}) ;
-          count++;
-          if (count == saves.length) {
-            zip.generateAsync({ type: 'blob' }).then(function (content) {
-              saveAs(content, 'romart.zip');
-            });
-          }
+          saves.shift();
+          setTimeout( () => {
+            compress();
+          },10);
+        })
+      } else {
+        zip.generateAsync({ type: 'blob' }).then(function (content) {
+          saveAs(content, `${folder}.zip`);
+          status.innerHTML = `downloading romart.zip`;
         });
-      })
+      }
     }
 
     return {

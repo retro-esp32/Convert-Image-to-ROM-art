@@ -66,18 +66,32 @@ body {
 header {
   grid-area: header;
   display:flex;
-  align-items:flex-start;
-  justify-content: center;
-  flex-direction: column;
+  align-items:center;
+  justify-content: space-between;
+  flex-direction: row;
   position: relative;
   background:var(--moss);
   color:var(--white);
-  padding-left:var(--gap);
+  padding:var(--gap);
   line-height: 1;
 }
 
 header strong {
   font-size:var(--size-18);
+}
+
+.title {
+  display:flex;
+  align-items:flex-start;
+  justify-content: center;
+  flex-direction: column;
+}
+
+.status {
+  display:flex;
+  align-items:flex-start;
+  justify-content: center;
+  flex-direction: column;
 }
 
 /*
