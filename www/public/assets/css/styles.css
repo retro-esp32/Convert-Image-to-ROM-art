@@ -64,15 +64,16 @@ body {
   Header
 */
 header {
+  position: sticky;
   grid-area: header;
   display:flex;
-  align-items:flex-start;
-  justify-content: center;
-  flex-direction: column;
+  align-items:center;
+  justify-content: space-between;
+  flex-direction: row;
   position: relative;
   background:var(--moss);
   color:var(--white);
-  padding-left:var(--gap);
+  padding:var(--gap);
   line-height: 1;
 }
 
@@ -80,24 +81,26 @@ header strong {
   font-size:var(--size-18);
 }
 
+.title {
+  display:flex;
+  align-items:flex-start;
+  justify-content: center;
+  flex-direction: column;
+}
+
 /*
   Main
 */
 main {
   grid-area: main;
-  /*
-  display:flex;
-  flex-direction:column;
-  align-items:center;
-  justify-content: center;
-  position:relative;
-  */
   margin: var(--gap);
   flex: 1;
   display:grid;
   grid-gap: var(--gap);
   grid-template-columns: repeat( auto-fit, minmax(100px, 1fr) );
-  position:relative;
+  grid-template-rows: repeat( auto-fit, minmax(100px, 100px) );
+  overflow: auto;
+  transition: all ease 250ms;
 }
 
 main:before {
@@ -108,6 +111,7 @@ main:before {
   height:100%;
   align-items:center;
   justify-content: center;
+  opacity: 0.5;
 
 }
 
@@ -210,6 +214,7 @@ main.over:before {
   width:var(--width);
 }
 
+
 /*
   Aside
 */
@@ -226,9 +231,32 @@ aside {
   Footer
 */
 footer {
-  grid-area: footer;
+  position: fixed;
+  bottom:0;
+  width: 100vw;
+  height:50px;
   display:flex;
   align-items:center;
   justify-content: center;
   background:var(--green);
+  z-index:999;
+  color:var(--white);
+}
+
+.status {
+  width:100%;
+  display:flex;
+  align-items:center;
+  justify-content: center;
+  flex-direction: row;
+}
+
+.status:before {
+  content:'';
+  position: absolute;
+  background: var(--moss);
+  left:0;
+  height:50px;
+  width:var(--width);
+  z-index:-1;
 }
