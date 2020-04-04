@@ -1,3 +1,10 @@
+> ### Although we do this for 💕 of 🕹️
+> **We Also Like Coffee!**
+> *Please Consider Supporting*
+> [![Support](https://raw.githubusercontent.com/retro-esp32/RetroESP32/master/Assets/sponsor.jpg)](https://github.com/sponsors/retro-esp32)
+
+-----
+
 # Convert PNG to ROM art
 > Create ```.art``` crc32 format ROM art
 
