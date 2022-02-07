@@ -11,9 +11,9 @@
   "license": "ISC",
   "dependencies": {
     "filereader": "^0.10.3",
-    "jpeg-js": "^0.3.6",
+    "jpeg-js": "^0.4.0",
     "node-blob": "0.0.2",
-    "nodemon": "^1.19.4",
+    "nodemon": "^2.0.15",
     "png-js": "^1.0.0",
     "prompt": "^1.0.0",
     "shelljs": "^0.8.3"
