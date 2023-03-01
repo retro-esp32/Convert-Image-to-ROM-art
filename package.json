@@ -1,0 +1,11 @@
+{
+  "name": "resizer",
+  "version": "1.0.0",
+  "description": "node app to create images into crc files",
+  "main": "index.js",
+  "scripts": {
+    "start": "node www/index.js"
+  },
+  "author": "32teeth",
+  "license": "ISC",
+}
