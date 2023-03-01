@@ -7,5 +7,5 @@
     "start": "node www/index.js"
   },
   "author": "32teeth",
-  "license": "ISC",
+  "license": "ISC"
 }
